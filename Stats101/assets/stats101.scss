@@ -1,0 +1,25 @@
+/*-- scss:defaults --*/
+$font-family-sans-serif: "Barlow Condensed", sans-serif;
+$font-family-monospace: "Fira Code", monospace;
+$presentation-font-size-root: 32px;
+$presentation-font-smaller: 0.7;
+$presentation-line-height: 1.2;
+$body-bg: #fff;
+
+/*-- scss:rules --*/
+
+/* Logo Size */ 
+
+.reveal .slide-logo {
+  height: 100px !important;
+  width: 100px !important;
+  max-width: unset !important;
+  max-height: unset !important;
+}
+
+
+/* Center Columns Contents */
+
+.colCenter {
+text-align: center;
+}

@@ -1,0 +1,145 @@
+---
+title: "Inferência Estatística"
+author:
+  - name: Paulo Barros
+    orcid: 0000-0001-9839-0796
+    email: pbarrosbio@gmail.com
+    affiliations:
+      - name: Genômica Aplicada a Conservação e Melhoramento  (GACOM)
+institute:
+  - PPG em Zootecnia (Genética e Melhoramento)
+  - Universidade Estadual do Sudoeste da Bahia
+        
+format: 
+  revealjs:
+    theme: [default,assets/stats101.scss]
+    logo: images/gacom.png
+    slide-number: true
+    highlight-style: dracula
+    embed-resources: true
+
+---
+
+## Tipos de Inferência
+
+:::{.fragment}
+
+#### Inferência Dedutiva
+
+> É o método de derivar informação de fatos ou declarações aceitas como verdadeiras (**Premissas**)
+
+:::
+
+:::{.fragment}
+
+Exemplo:
+
+i) Um dos ângulos interiores de um triângulo retângulo tem 90˚.
+
+ii) $\textbf A$ é um triângulo retângulo.
+
+::: 
+
+:::{.fragment}
+
+Se aceitarmos as premissas como verdadeiras, somos forçados a concluir:
+
+iii) Um dos ângulos interiores de $\textbf A$ tem 90˚.
+
+:::
+
+## Tipos de Inferência
+
+:::{.fragment}
+
+#### Inferência Indutiva
+
+> Processo de raciocínio indutivo, em que se procuram tirar conclusões indo do **particular** para o **geral**.
+
+
+:::
+
+:::{.incremental}
+
+- É um processo trabalhoso.
+
+- Não é possível fazer generalizações exatas.
+
+- Existe um elemento **obrigatório** de **incerteza**.
+
+- Entretanto, o **grau de incerteza** das generalizações pode ser medido se a **experimentação** acontecer obedecendo certos princípios.
+
+- A incerteza é medida em termos de **probabilidade**.
+
+- Um dos objetivos da Estatística é fornecer métodos de realizar inferências estatísticas e mensurar as incertezas.
+
+:::
+
+## Inferência Estatística
+
+
+
+:::{.columns}
+
+:::{.column width="40%"}
+
+:::{.fragment}
+
+Exemplo:
+
+![](images/seeds.png){width="400"}
+
+#### 10 milhões de sementes
+
+<br>
+
+### {{< fa circle-question >}} Quantas sementes produzirão flores brancas?
+
+:::
+
+:::
+
+:::{.column width="60%"}
+
+:::{.fragment}
+
+![](images/seeds2.png){width="600" fig-align="right"}
+
+:::
+
+:::{.fragment}
+
+![](images/seeds3.png){width="500" fig-align="center"}
+
+:::
+
+:::
+
+:::
+
+## Inferência Estatística
+
+:::{.fragment}
+
+![](images/seeds4.png){width="900" fig-align="center"}
+:::
+
+:::{.fragment}
+
+**POPULAÇÃO:**  totalidade dos elementos sob discussão, dos quais desejamos informação.
+
+:::
+
+:::{.fragment}
+
+**AMOSTRA:**  qualquer parte (ou subconjunto) de uma população.
+
+:::
+
+:::{.fragment}
+
+> **Inferência estatística** é o processo de especificar valores para **parâmetros desconhecidos** da população, através de **estatísticas** obtidas de um conjunto de **valores observados** numa amostra.
+
+:::
+
+
