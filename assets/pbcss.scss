@@ -1,0 +1,10 @@
+/*-- scss:defaults --*/
+
+$site-a-nodecor-img-link: none !default;
+
+#quarto-content .content a i {
+  text-decoration: $site-a-nodecor-img-link;
+  margin-right: 10px;
+}
+
+/*-- scss:rules --*/
