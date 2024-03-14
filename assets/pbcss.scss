@@ -8,3 +8,16 @@ $site-a-nodecor-img-link: none !default;
 }
 
 /*-- scss:rules --*/
+
+
+#vcenter {
+  vertical-align: middle;
+}
+
+
+.v-center-container {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+}

@@ -21,18 +21,18 @@ format:
     
 ---
 
-:::{columns}
+:::{.columns .v-center-container}
 
-:::{.column width="40%"}
+:::{.column width="25%"}
 
 ![](images/avatarNew.png){fig-aligment="center" width="300"}
 
 :::
 
-:::{.column width="10%"}
+:::{.column width="5%"}
 :::
 
-:::{.column width="40%"}
+:::{.column width="60%"}
 
 ### Sejam bem-vind@s! {{< fa hand-spock >}}
 

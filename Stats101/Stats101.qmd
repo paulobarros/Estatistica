@@ -1,22 +1,45 @@
 ---
-title: "Inferência Estatística"
+title: "Revisão Inferência Estatística"
 author:
   - name: Paulo Barros
     orcid: 0000-0001-9839-0796
+    degrees: MSc
     email: pbarrosbio@gmail.com
     affiliations:
-      - name: Genômica Aplicada a Conservação e Melhoramento  (GACOM)
-institute:
-  - PPG em Zootecnia (Genética e Melhoramento)
-  - Universidade Estadual do Sudoeste da Bahia
-        
+      - ref: gacom
+      - ref: ppz
+      - ref: uesb
+  
+  - name: Paulo Carneiro
+    degrees: PhD
+    orcid: 0000-0001-7708-6197
+    email: pslcarneiro@uesb.edu.br
+    affiliations:
+      - ref: gacom
+      - ref: ppz
+      - ref: uesb
+
+affiliations:
+  - id: gacom
+    name: Genética Aplicada à Conservação e Melhoramento (GACOM)
+  - id: ppz
+    name: PPG em Zootecnia (Genética e Melhoramento)
+  - id: uesb
+    name: Universidade Estadual do Sudoeste da Bahia
+
 format: 
   revealjs:
     theme: [default,assets/stats101.scss]
     logo: images/gacom.png
     slide-number: true
     highlight-style: dracula
-    embed-resources: true
+    incremental: true   
+
+execute:
+  warning: false
+  echo: false
+  include: true
+  error: false
 
 ---
 
@@ -142,4 +165,268 @@ Exemplo:
 
 :::
 
+## Estatística, Parâmetro, Estimador e Estimativa
+
+:::{.fragment}
+
+**PARÂMETRO:** é uma medida numérica que descreve uma característica ou propriedade de uma **população**.
+
+$$f(x|\mu, \sigma^2) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}, \ \ F.D.P \ da \ Distribuição \ Normal$$
+$\large \mu$ média populacional, e $\large \sigma^2$ variância populacional
+
+:::
+
+<br>
+
+:::{.fragment}
+
+**ESTATÍSTICA:** é qualquer função da **amostra** que não depende de parâmetros desconhecidos.
+
+
+:::{.columns}
+
+:::{.column}
+
+$$\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i$$
+
+$$Média \ Amostral$$
+
+:::
+
+:::{.column}
+
+$$s^2 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})^2$$
+$$Variância \ Amostral$$
+:::
+:::
+
+:::
+
+
+## Estatística, Parâmetro, Estimador e Estimativa
+
+:::{.fragment}
+
+**ESTIMADOR:** É uma regra ou fórmula matemática usada para calcular uma estimativa de um parâmetro desconhecido de uma população com base em dados amostrais. Por exemplo, a média amostral $\large \bar{x}$ é um estimador da média populacional $\large \mu$.
+
+
+:::
+
+<br>
+
+:::{.fragment}
+
+**ESTIMATIVA:** É o valor numérico específico calculado usando um estimador com dados amostrais reais. Por exemplo, se usarmos a média amostral $\large \bar{x}$ para calcular a média de uma amostra de alturas, o valor numérico resultante é a estimativa da média populacional.
+
+
+:::{.columns}
+
+:::{.column}
+
+$$\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i$$
+$$Estimador$$
+
+:::
+
+:::{.column}
+
+$$\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i = \frac{12+13+7+8+10}{5} \implies \bar{x} = 10$$
+$$Estimativa$$
+:::
+:::
+
+:::
+
+## Teste de Hipóteses
+
+> Uma **hipótese estatística** é uma afirmação ou suposição sobre os parâmetros de uma ou mais populações. Essas hipóteses são formuladas para serem testadas estatisticamente usando dados amostrais. É uma suposição quanto ao valor de um parâmetro populacional, que será verificada por um **teste paramétrico**, ou uma afirmação quanto à natureza  da população, que será verificada por um **teste de aderência**, entre outros. 
+
+**Hipótese Nula** $(H_0)$: É uma afirmação que assume que não há efeito, não há diferença ou não há associação entre variáveis na população. Geralmente, é a hipótese que o pesquisador está interessado em testar. Por exemplo, "a média de um grupo é igual a um valor específico" ou "não há diferença entre dois grupos".
+
+**Hipótese Alternativa** $(H_1)$: É uma afirmação que contradiz a hipótese nula. Ela sugere que há um efeito, uma diferença ou uma associação na população. Por exemplo, "a média de um grupo é diferente de um valor específico" ou "há uma diferença entre dois grupos".
+
+## Experimentação
+
+> Estudo dos experimentos (planejamento, execução, análise dos dados obtidos e interpretação dos resultados).
+
+:::{.columns}
+
+:::{.column width="60%"}
+
+<br>
+
+**Estudo experimental:** influenciamos nas respostas das unidades experimentais.
+
+**Estudo observacional:** não influenciamos nas respostas das unidades experimentais.
+
+**Experimento ou ensaio:** é um trabalho previamente planejado, que segue determinados princípios básicos e no qual se faz a comparação dos efeitos dos tratamentos.
+
+:::
+
+:::{.column width="40%"}
+
+{{< video https://www.youtube.com/watch?v=w1MTl5Ipebk width="400" height="280" aspect-ratio="16x9"  >}}
+:::
+
+
+:::
+
+## Experimentação
+
+**Tratamento:** é o método, elemento ou material cujo efeito desejamos medir ou comparar em um experimento. (genótipos, variedades, níveis de proteína na ração, diferentes extratos vegetais, diferentes locais de coleta e outros)
+
+**Unidade experimental ou parcela:** é a unidade que vai receber o tratamento e fornecer os dados que deverão refletir o seu efeito. (Rações: 1 leitão ou um grupo de leitões; Local: 1 peixe; Variedades: um vaso com plantas, etc)
+
+
+**Delineamento experimental:** é o plano utilizado na experimentação e implica na forma como os tratamentos serão designados às unidades experimentais.  
+
+  + Delineamento inteiramente casualizado (DIC);
+  + Delineamento em blocos casualizados (DBC);
+  + Entre outros ...
+  
+## Experimentação - Princípio da Repetição
+
+:::{.columns}
+
+:::{.column width="40%"}
+
+* Consiste na reprodução do experimento básico;
+
+* Visa propiciar a obtenção de uma estimativa do erro experimental (verificar a variação dentro);
+
+* A repetição consiste em aplicar o mesmo tratamento a várias parcelas ou unidades experimentais num mesmo experimento.
+
+:::
+
+:::{.column width="60%"}
+
+```{r}
+library(tidyverse, quietly = TRUE)
+library(gt, quietly = TRUE)
+library(gtExtras, quietly = TRUE)
+
+
+patos <- tibble::tribble(
+~GG,~REP,~PCC,~CPT,~APT,~LPT,~LCX,~LSC,			
+"NM",1,1850,189.14,51.41,110.3,66.41,105.36,			
+"NM",2,1645,174.84,57.85,108.57,62.09,106.89,			
+"NM",3,1935,175.24,42.36,123.44,55.9,118.92,		
+"NM",4,2015,173.25,55.05,121.24,58.41,114.6,			
+"NF",1,1145,138.89,48.57,92.46,46.06,85.57,			
+"NF",2,1100,150.94,45.81,97.6,66.32,75.83,			
+"NF",3,1270,144.8,39.79,108.17,45.39,99.73,			
+"NF",4,1170,155,44.81,92.15,57.04,82.29
+)		
+
+patos |> 
+  gt::gt() |>
+  gtExtras::gt_theme_guardian() |>
+  gt::tab_style(
+    style = list(
+      cell_fill(color = "#f4d58d")
+    ),
+    locations = cells_body(columns = REP)
+  ) |>
+  tab_style(
+    style = list(
+      cell_text(
+        weight = "bold"
+      )
+    ),
+    locations = cells_column_labels()
+  ) |>
+  tab_options(
+    table.font.size = 32,
+    table.font.names = "Barlow Condensed"
+  )
+  
+
+```
+
+:::
+
+:::
+
+## Experimentação - Princípio da Casualização
+
+
+* Propiciar, a todos os tratamentos, a mesma chance de serem designados a qualquer uma das unidades experimentais;
+
+* Evita que nenhum dos tratamentos seja sistematicamente favorecido ou desfavorecido por fatores externos;
+
+ * Necessário para que as variações que contribuem para o erro experimental, sejam convertidas em variáveis aleatórias.
+
+:::{.columns}
+ 
+:::{.column width="80%"}
+ 
+* Permite obter uma **estimativa válida do erro experimental**;
+
+* Garante o uso de testes de significância por tornar os erros experimentais independentes;
+
+:::{.fragment}
+<span class="faRed">{{< fa circle-exclamation >}}</span> **sem os princípios básicos da repetição e da casualização não existe experimentação.**
+:::
+ 
+:::
+
+:::{.column width="20%"}
+{{< fa dice size=10x >}}
+:::
+ 
+:::
+
+## Experimentação - Princípio do Controle Local
+
+:::{.columns}
+
+:::{.column width="60%" }
+
+<br>
+
+* Muito usado, mas não é obrigatório;
+
+* Dividir um ambiente heterogêneo em sub-ambientes homogêneos e tornar o delineamento experimental mais eficiente, pela **redução do erro experimental**.
+
+:::
+
+:::{.column width="40%"}
+
+:::{.fragment}
+
+![](images/soils.png){fig-align="center" width="300"}
+
+:::
+
+:::
+
+:::
+
+
+:::{.fragment}
+
+![](images/soils2.png){fig-align="center"}
+
+:::
+
+
+## Fontes de Variação em um Experimento
+
+* **Premeditada:** É aquela introduzida pelo pesquisador com a finalidade de fazer comparações. Por exemplo: tratamentos.
+
+* **Sistemática:**
+
+    + Variações não intencionais, mas de natureza conhecida;
+
+    + Variação inerente ao material experimental;
+
+    + Podem ser controladas pelo pesquisador (heterogeneidade do solo,  idade dos animais, época de coleta etc.)
+  
+* **Aleatória:**
+    
+    + São variações de origem desconhecida, não podendo ser controladas;
+    
+    + Constituem o erro experimental (variações no material experimental e falta de uniformidade nas condições experimentais);
+
+    + Nem sempre é possível distinguir claramente este tipo de variação da anterior. 
 

@@ -6,6 +6,7 @@ $presentation-font-smaller: 0.7;
 $presentation-line-height: 1.2;
 $body-bg: #fff;
 
+
 /*-- scss:rules --*/
 
 /* Logo Size */ 
@@ -22,4 +23,27 @@ $body-bg: #fff;
 
 .colCenter {
 text-align: center;
+}
+
+/* AUTHOR METADATA */
+
+.reveal .quarto-title-block .quarto-title-authors .quarto-title-author .quarto-title-author-email {
+    margin-top: 0px;
+    margin-bottom: 2.5em;
+    font-size: .6em;
+}
+
+
+.reveal .quarto-title-block .quarto-title-authors .quarto-title-author .quarto-title-affiliation {
+    font-size: .6em;
+    margin-top: 0px;
+    margin-bottom: 8px;
+    color: #495057;
+    
+}
+
+/* FONT AWESOME ICON COLORS */
+
+.faRed {
+  color: #a4133c;
 }
