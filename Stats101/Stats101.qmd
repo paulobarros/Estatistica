@@ -300,6 +300,8 @@ $$Estimativa$$
 
 :::{.column width="60%"}
 
+:::{.fragment}
+
 ```{r}
 library(tidyverse, quietly = TRUE)
 library(gt, quietly = TRUE)
@@ -343,9 +345,14 @@ patos |>
 
 ```
 
+
 :::
 
 :::
+
+:::
+
+
 
 ## Experimentação - Princípio da Casualização
 
