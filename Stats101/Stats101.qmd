@@ -21,7 +21,7 @@ author:
 
 affiliations:
   - id: gacom
-    name: Genética Aplicada à Conservação e Melhoramento (GACOM)
+    name: Genômica Aplicada à Conservação e Melhoramento (GACOM)
   - id: ppz
     name: PPG em Zootecnia (Genética e Melhoramento)
   - id: uesb
