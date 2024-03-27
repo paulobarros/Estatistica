@@ -47,4 +47,4 @@ Neste repositório vocês encontrarão alguns materiais sobre Estatística. São
 
 ### Revisão Básica de Estatísica Inferencial
 
-[{{< fa file-powerpoint size=lg >}}Aula 01 -  Inferência estatística](https://paulobarros.github.io/Estatistica/Stats101/Stats101.html#/title-slide){target="_blank}
+[{{< fa file-powerpoint size=lg >}} Revisão Inferência Estatística estatística](https://paulobarros.github.io/Estatistica/Stats101/Stats101.html#/title-slide){target="_blank}

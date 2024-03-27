@@ -34,7 +34,8 @@ format:
     slide-number: true
     highlight-style: dracula
     incremental: true   
-
+    monofont: "Iosevka Nerd Font Mono"
+    
 execute:
   warning: false
   echo: false
@@ -43,7 +44,12 @@ execute:
 
 ---
 
-## Tipos de Inferência
+# Aula 01{.center}
+
+_Tipos de Inferência, Inferência Estatística e Experimentação_
+
+
+## Tipos de Inferência{#tipos-inferencia}
 
 :::{.fragment}
 
@@ -437,3 +443,649 @@ patos |>
 
     + Nem sempre é possível distinguir claramente este tipo de variação da anterior. 
 
+
+# Aula 02{.center}
+
+_Teste de Hipótese, ANOVA e Correlação_
+
+
+## Teste de Hipótese{#teste-hipotese}
+
+:::{.fragment}
+
+> Fornecem ferramentas que nos permitem rejeitar ou não rejeitar uma hipótese estatística através da evidencia fornecida pela amostra.
+
+:::
+
+<br>
+
+:::{.fragment}
+
+**Hipótese Nula** $(H_0)$: É uma afirmação que assume que não há efeito, não há diferença ou não há associação entre variáveis na população. Geralmente, é a hipótese que o pesquisador está interessado em testar. Por exemplo, "a média de um grupo é igual a um valor específico" ou "não há diferença entre dois grupos".
+
+**Hipótese Alternativa** $(H_1)$: É uma afirmação que contradiz a hipótese nula. Ela sugere que há um efeito, uma diferença ou uma associação na população. Por exemplo, "a média de um grupo é diferente de um valor específico" ou "há uma diferença entre dois grupos".
+
+:::
+
+## Região Crítica
+
+
+* É a faixa de valores da estatística dos testes que nos levam à rejeição da hipótese $H_0$;
+
+* Se o valor da estatística do teste ($z$, $t$, $F$ etc) pertença à região crítica, rejeita-se $H_0$;
+
+* Qualquer decisão tomada implica na possibilidade de cometer, basicamente, dois tipos de erros: **erro tipo I** e **erro tipo II**.
+
+:::{.fragment}
+
+
+```{r}
+#| message: false
+#| warning: false
+#| include: true
+#| echo: false
+
+library(ggplot2, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(ggtext, quietly = TRUE)
+library(gt, quietly = TRUE)
+
+library(ggplot2)
+library(tidyverse)
+library(ggtext)
+
+set.seed(134)
+  
+  fdist <- tibble(x = rf(100,3,20))
+  
+  den <- density(fdist$x)
+  
+  fdist <- tibble(x = den$x, y = den$y)
+  
+ggplot(data = fdist, aes(x,y)) +
+    geom_area(data = fdist |>
+                filter(x >= 3),
+              aes(x = x, y = y),
+              fill = "gray60")  +
+    geom_area(data = fdist |>
+                filter(x <= 3),
+              aes(x = x, y = y),
+              fill = "gray90")  +
+    geom_segment(
+      aes(x = 3.0, xend = 3.0, y = 0, yend = 0.09),
+      linetype = 2,
+      linewidth = .6) +
+    geom_line(linewidth=1) +
+    annotate("text",x= 1, y = 0.027, label = "0.99",
+             family = "Barlow Condensed Medium",
+             size = 6)+
+    annotate("text",x= 3.3, y = 0.027, label = "0.01",
+             family = "Barlow Condensed Medium",
+             size = 6)+
+    annotate("text",x= 1, y = 0.2, label = "RA",
+             family = "Barlow Condensed Medium",
+             size = 7)+
+    annotate("text",x= 3.1, y = 0.027, label = "RR",
+             family = "Barlow Condensed Medium",
+             size = 7)+
+    geom_curve(data = tibble(x = 3, y = 0.06,
+                             xend = 2.8, yend = 0.14),
+               aes(x=x,y=y,xend=xend,yend=yend),
+               color = "gray20",
+               arrow = arrow(
+                 angle = 30, 
+                 length = unit(0.1, "inches"),
+                 ends = "last", type = "closed"
+               ),
+               linewidth = .5,
+               curvature = -0.5) +
+    geom_curve(data = tibble(x = 3.5, y = 0.03,
+                             xend = 3.7, yend = 0.10),
+               aes(x=x,y=y,xend=xend,yend=yend),
+               color = "gray20",
+               arrow = arrow(
+                 angle = 30, 
+                 length = unit(0.1, "inches"),
+                 ends = "last", type = "closed"
+               ),
+               linewidth = .5,
+               curvature = 0.4) +
+    geom_richtext(data = tibble(x = 2.7, y = 0.16, label = "<i>F</i><sub>0.01</sub>(3,20) = 4.94"),
+                  aes(x,y,label = label),
+                  family = "Barlow Condensed Medium",
+                  size = 6,
+                  label.color = NA,
+                  fill = NA,
+                  nudge_x = 0.15
+    ) +
+    geom_richtext(data = tibble(x = 3.7, y = 0.12, label = "<i>F</i><sub>CALC</sub> = 5.40"),
+                  aes(x,y,label = label),
+                  family = "Barlow Condensed Medium",
+                  size = 6,
+                  label.color = NA,
+                  fill = NA
+    ) +
+    scale_x_continuous(limits = c(0,4), expand = c(0,0)) +
+    scale_y_continuous(expand = expansion(mult = c(0,0))) +
+    theme_classic(base_size = 18, base_family = "Barlow Condensed Medium") +
+    coord_cartesian(clip = "off") +
+    theme(
+      panel.grid = element_blank(),
+      axis.title = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      plot.margin = margin(t = 20,  # Top margin
+                           r = 10,  # Right margin
+                           b = 60,  # Bottom margin
+                           l = 10),
+      axis.line = element_line(arrow = arrow(
+        angle = 30, 
+                 length = unit(0.1, "inches"),
+                 ends = "last", type = "closed"
+      ))
+      
+    )
+
+```
+
+:::
+
+## Erro Tipo I e Erro Tipo II
+
+<br>
+
+```{r}
+library(gt)
+tibble::tribble(
+  ~decisao,~verd,~falso,
+  "Rejeitar $H_0$","$\\large \\alpha$","$\\large 1 - \\beta$",
+  "Aceitar $H_0$","$\\large 1- \\alpha$","$\\beta$"
+) |>
+  gt::gt() |>
+  gt::fmt_markdown() |>
+  gt::cols_label(verd = md("$H_0$ é verdadeira"),
+                 falso = md("$H_0$ é falsa"),
+                 decisao = md("**Decisão**")) |>
+  gt::tab_spanner(label = md("**Realidade**"),
+                  id = "realidade",
+                  columns = c(decisao,verd,falso)) |>
+  gt::tab_options(table.width = "100%",
+                  table.font.size = 22) |>
+  tab_style(
+    style = cell_borders(
+      sides = c("top","bottom"),
+      color = "black",
+      weight = px(2),
+      style = "solid"
+    ),
+    locations = list(cells_body(),
+                     cells_stub(),
+                     cells_column_labels()
+                     )
+  ) |>
+  tab_style(
+    style = cell_borders(
+      sides = c("top","bottom"),
+      color = "black",
+      weight = px(2.5),
+      style = "solid"
+    ),
+    locations = list(cells_column_spanners(spanners = 'realidade')
+                     
+                     )
+  )
+  
+  
+```
+
+
+**Erro Tipo I (Falso Positivo):**
+
+**Definição:** Um erro tipo I ocorre quando você **rejeita uma hipótese nula verdadeira** ($\large \alpha$).
+
+Analogia: É como quando o detetive prende uma pessoa inocente, pensando que ela é culpada.
+
+**Erro Tipo II (Falso Negativo):**
+
+**Definição:** Um erro tipo II ocorre quando você **falha em rejeitar uma hipótese nula falsa** ($\large \beta$).
+
+Analogia: É como quando o detetive deixa escapar um criminoso culpado, pensando que ele é inocente.
+
+
+
+## P-valor (_p-value_)
+
+* $\large \alpha \ = \ P$  (cometer o erro tipo I) 
+
+* **p-value:** corresponde ao menor nível de significância para a qual $H_0$ poderia ter sido rejeitada (nível mínimo de significância para rejeição de $H_0$). Probabilidade de rejeitar $H_0$  devido a variáções aleatórias.
+
+:::{.fragment}
+
+* De maneira simples:
+
+  + Se p-value $\large \leq \alpha$ (rejeita-se $H_0$);
+  
+  + Se p-value $\large \gt \alpha$ (aceita-se $H_0$).
+
+  :::{.fragment}
+  
+  {{< fa triangle-exclamation >}} Não é a probabilidade da hipótese nula ser verdadeira!
+
+
+  {{< fa triangle-exclamation >}} Não é a probabilidade de rejeitar dado a hipótese nula!
+
+  {{< fa square-check >}} é a probabilidade de se observar uma estatística tão ou mais extrema do que a observada, no melhor cenário sob a hipótese nula.
+  
+  :::
+
+:::
+
+## ANOVA - Análise de Variância
+
+
+* Técnica que estuda grupos de médias de tratamentos e verifica se existem diferenças significativas entre elas.
+
+* A ideia da ANOVA é **particionar a variância na resposta** entre a associada aos **preditores** e ao **erro**. 
+
+* Os preditores (variáveis independentes) são comumente chamados de **fatores** com diferentes **níveis**, e os parâmetros da regressão chamados de **efeitos**.
+
+:::{.fragment}
+
+```{r}
+library(gt)
+tibble::tribble(
+  ~fv,~gl,~sq,~qm,~stat,
+  "Variedades<br>(entre variedades)","3","1636","545.3","5.40<sup>**</sup>",
+  "Erro Experimental<br>(dentro de variedades)","20","2018","100.9","",
+  "**Total**","23","3654","",""
+) |>
+  gt::gt() |>
+  gt::fmt_markdown() |>
+  gt::cols_label(fv = md("**Fontes de Variação (FV)**"),
+                 gl = md("**Graus de Liberdade (GL)**"),
+                 sq = md("**Soma de Quadrados (SQ)**"),
+                 qm = md("**Quadrado Médio (QM)**"),
+                 stat = md("***F***")) |>
+  gt::tab_options(table.width = "100%",
+                  table.font.size = 24) |>
+  tab_style(
+    style = cell_borders(
+      sides = c("top","bottom"),
+      color = "black",
+      weight = px(2),
+      style = "solid"
+    ),
+    locations = list(cells_body(),
+                     cells_stub(),
+                     cells_column_labels()
+                     )
+  ) |>
+  tab_style(
+    style = cell_text(
+      align = "center"
+    ),
+    locations = list(
+      cells_body(columns = c(gl,sq,qm,stat)),
+      cells_column_labels( columns = c(gl,sq,qm,stat))
+      )
+  )
+```
+
+:::
+
+## ANOVA - Análise de Variância
+
+```{r}
+#| message: false
+#| warning: false
+#| include: true
+#| echo: false
+#| fig-height: 4
+
+
+library(ggplot2, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(ggtext, quietly = TRUE)
+library(gt, quietly = TRUE)
+
+library(ggplot2)
+library(tidyverse)
+library(ggtext)
+
+set.seed(134)
+  
+  fdist <- tibble(x = rf(100,3,20))
+  
+  den <- density(fdist$x)
+  
+  fdist <- tibble(x = den$x, y = den$y)
+  
+ggplot(data = fdist, aes(x,y)) +
+    geom_area(data = fdist |>
+                filter(x >= 3),
+              aes(x = x, y = y),
+              fill = "gray60")  +
+    geom_area(data = fdist |>
+                filter(x <= 3),
+              aes(x = x, y = y),
+              fill = "gray90")  +
+    geom_segment(
+      aes(x = 3.0, xend = 3.0, y = 0, yend = 0.09),
+      linetype = 2,
+      linewidth = .6) +
+    geom_line(linewidth=1) +
+    annotate("text",x= 1, y = 0.027, label = "0.99",
+             family = "Barlow Condensed Medium",
+             size = 6)+
+    annotate("text",x= 3.3, y = 0.027, label = "0.01",
+             family = "Barlow Condensed Medium",
+             size = 6)+
+    annotate("text",x= 1, y = 0.2, label = "RA",
+             family = "Barlow Condensed Medium",
+             size = 7)+
+    annotate("text",x= 3.1, y = 0.027, label = "RR",
+             family = "Barlow Condensed Medium",
+             size = 7)+
+    geom_curve(data = tibble(x = 3, y = 0.06,
+                             xend = 2.8, yend = 0.14),
+               aes(x=x,y=y,xend=xend,yend=yend),
+               color = "gray20",
+               arrow = arrow(
+                 angle = 30, 
+                 length = unit(0.1, "inches"),
+                 ends = "last", type = "closed"
+               ),
+               linewidth = .5,
+               curvature = -0.5) +
+    geom_curve(data = tibble(x = 3.5, y = 0.03,
+                             xend = 3.7, yend = 0.10),
+               aes(x=x,y=y,xend=xend,yend=yend),
+               color = "gray20",
+               arrow = arrow(
+                 angle = 30, 
+                 length = unit(0.1, "inches"),
+                 ends = "last", type = "closed"
+               ),
+               linewidth = .5,
+               curvature = 0.4) +
+    geom_richtext(data = tibble(x = 2.7, y = 0.16, label = "<i>F</i><sub>0.01</sub>(3,20) = 4.94"),
+                  aes(x,y,label = label),
+                  family = "Barlow Condensed Medium",
+                  size = 6,
+                  label.color = NA,
+                  fill = NA,
+                  nudge_x = 0.15
+    ) +
+    geom_richtext(data = tibble(x = 3.7, y = 0.12, label = "<i>F</i><sub>CALC</sub> = 5.40"),
+                  aes(x,y,label = label),
+                  family = "Barlow Condensed Medium",
+                  size = 6,
+                  label.color = NA,
+                  fill = NA
+    ) +
+    scale_x_continuous(limits = c(0,4), expand = c(0,0)) +
+    scale_y_continuous(expand = expansion(mult = c(0,0))) +
+    theme_classic(base_size = 18, base_family = "Barlow Condensed Medium") +
+    coord_cartesian(clip = "off") +
+    theme(
+      panel.grid = element_blank(),
+      axis.title = element_blank(),
+      axis.text = element_blank(),
+      axis.ticks = element_blank(),
+      plot.margin = margin(t = 20,  # Top margin
+                           r = 10,  # Right margin
+                           b = 60,  # Bottom margin
+                           l = 10),
+      axis.line = element_line(arrow = arrow(
+        angle = 30, 
+                 length = unit(0.1, "inches"),
+                 ends = "last", type = "closed"
+      ))
+      
+    )
+
+```
+
+$F_{calc} = 5.40 \gt F_{tab}(\alpha = 0.01,3,20) = 4.94$ 
+
+A diferença entre médias de tratamentos é significativa (p < 0.01).
+
+Rejeita-se $H_0: \mu_1 = \mu_2 = \mu_3 = \mu_4$
+
+
+## Modelo Estatísto
+
+> Um modelo estatístico é uma **representação matemática ou probabilística** de um fenômeno, processo ou sistema que está sujeito a **variações aleatórias**. Ele é desenvolvido com base em dados observados ou experimentais e é utilizado para descrever, entender, prever ou controlar o comportamento do fenômeno em questão. **Visa identificar que fatores estão influenciando a variável em estudo (resposta)**.
+
+
+$$\Large y_{ij} = \mu + t_{i} + \epsilon_{ij}$$
+
+
+$y_{ij}$ : valor observado para a VD no i-ésimo tratamento na j-ésima repetição.
+
+$\mu$ : média geral do experimento (intercepto) para a VD.
+
+$t_{i}$ : efeito do particular tratamento $i$ no valor observado $y_{ij}$.
+
+$\epsilon_{ij}$ : erro aleatório associado a observação $y_{ij}$.
+
+## Rodando ANOVA no {{< fa brands r-project size=lg >}}
+
+Utilizamos a função `aov` que recebe como argumento a declaração do nosso **modelo estatístico** e o conjunto de dados.
+
+
+:::{.columns}
+
+:::{.column width="60%"}
+
+```{r}
+#| eval: false
+#| echo: true
+
+# Carrega o conjunto de dados
+patos <- read.csv(here("data/dadosPatos.csv"))
+
+# Chama a função `aov` para realizar a ANOVA
+anovaPCC <- aov(PCC ~ GG, data = patos) 
+
+# Exibe a tabela da Anova
+anovaPCC |> summary()
+
+
+```
+
+
+<br>
+
+```{r}
+#| echo: false
+
+library(here, quietly = TRUE)
+
+patos <- read.csv(here("data/dadosPatos.csv"))
+
+anovaPCC <- aov(PCC ~ GG, data = patos) 
+
+anovaPCC |> summary()
+
+
+```
+
+:::
+
+:::{.column width="40%"}
+
+#### Modelo Estatístico
+
+$$\textbf{PCC} \sim \mu \ + \ \textbf{GG} \ + \ \varepsilon$$
+
+Na declaração do modelo na função `aov` declaramos somente a nossa variável resposta e os fatores (preditores) a serem testados. 
+
+A média geral $\mu$ e o erro aleatório $\varepsilon$  são inseridos internamente pela função.
+
+
+
+:::
+
+:::
+
+## Rodando ANOVA no {{< fa brands r-project size=lg >}}
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+
+# Carrega o conjunto de dados
+patos <- read.csv(here("data/dadosPatos.csv"))
+
+```
+
+<br>
+
+:::{.columns}
+
+:::{.column width="60%"}
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+
+
+anovaPCC <- aov(LCX ~ GG, data = patos) 
+
+anovaPCC |> summary()
+
+```
+
+
+
+```{r}
+#| echo: false
+
+library(here, quietly = TRUE)
+
+patos <- read.csv(here("data/dadosPatos.csv"))
+
+anovaPCC <- aov(LCX ~ GG, data = patos) 
+
+anovaPCC |> summary()
+
+
+```
+
+:::
+
+:::{.column width="40%"}
+
+$\small \textbf{LCX} \sim \mu \ + \ \textbf{GG} \ + \ \varepsilon$
+
+
+:::
+
+:::
+
+
+:::{.columns}
+
+:::{.column width="60%"}
+
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-overflow: wrap
+
+
+anovaPCC <- aov(APT ~ GG, data = patos) 
+
+anovaPCC |> summary()
+
+```
+
+
+
+```{r}
+#| echo: false
+
+library(here, quietly = TRUE)
+
+patos <- read.csv(here("data/dadosPatos.csv"))
+
+anovaPCC <- aov(APT ~ GG, data = patos) 
+
+anovaPCC |> summary()
+
+
+```
+
+:::
+
+:::{.column width="40%"}
+
+$\small \textbf{APT} \sim \mu \ + \ \textbf{GG} \ + \ \varepsilon$
+
+:::
+
+:::
+
+## ANOVA no {{< fa pencil >}} ... como os fenícios
+
+```{r}
+library(gt)
+tibble::tribble(
+  ~fv,~gl,~sq,~qm,~stat,
+  md("Variedades<br>(entre variedades)"),md("$p-1$"),md("$SQ_{Trat}$"),md("$\\frac{SQ_{Trat}}{p-1}$"),md("$F$"),
+  md("Erro Experimental<br>(dentro de variedades)"),md("$n-p$"),md("$SQ_{Res}$"),md("$\\frac{SQ_{Res}}{n-p}$"),md(""),
+  md("**Total**"),md("$n-1$"),md("$SQ_{Total}$"),md(""),md("")
+) |>
+  gt::gt() |>
+  gt::fmt_markdown() |>
+  gt::cols_label(fv = md("**Fontes de Variação (FV)**"),
+                 gl = md("**Graus de Liberdade (GL)**"),
+                 sq = md("**Soma de Quadrados (SQ)**"),
+                 qm = md("**Quadrado Médio (QM)**"),
+                 stat = md("***F***")) |>
+  gt::tab_options(table.width = "100%",
+                  table.font.size = 24) |>
+  tab_style(
+    style = cell_borders(
+      sides = c("top","bottom"),
+      color = "black",
+      weight = px(2),
+      style = "solid"
+    ),
+    locations = list(cells_body(),
+                     cells_stub(),
+                     cells_column_labels()
+                     )
+  ) |>
+  tab_style(
+    style = cell_text(
+      align = "center"
+    ),
+    locations = list(
+      cells_body(columns = c(gl,sq,qm,stat)),
+      cells_column_labels( columns = c(gl,sq,qm,stat))
+      )
+  )
+```
+
+<br> 
+
+:::{.columns}
+:::{.column}
+
+$\small \displaystyle SQ_{Total} = \sum_{i=1,j=1}^{I,J}Y_{ij}^2 - \frac{\displaystyle \left( \sum_{i=1,j=1}^{I,J}Y_{ij}\right)^2}{IJ}$
+
+:::
+
+:::{.column}
+$\small \displaystyle SQ_{Trat} = \sum_{i=1}^{I}\frac{T_{i}^2}{J} - \frac{\displaystyle \left( \sum_{i=1,j=1}^{I,J}Y_{ij}\right)^2}{IJ}$
+
+:::
+
+:::
+
+$\small SQ_{Total} \ = \ SQ_{Trat} + SQ_{Res}$

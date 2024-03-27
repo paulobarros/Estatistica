@@ -1,6 +1,6 @@
 /*-- scss:defaults --*/
 $font-family-sans-serif: "Barlow Condensed", sans-serif;
-$font-family-monospace: "Fira Code", monospace;
+$font-family-monospace: "Iosevka Nerd Font Mono", "Fira Code", monospace;
 $presentation-font-size-root: 32px;
 $presentation-font-smaller: 0.7;
 $presentation-line-height: 1.2;
@@ -46,4 +46,41 @@ text-align: center;
 
 .faRed {
   color: #a4133c;
+}
+
+
+/* SOURCE CODE INLINE */
+
+
+.reveal p code:not(.sourceCode) {
+  
+    color: #fafffb;
+    background-color: rgb(50 49 49);
+    border-radius: 5px;
+    white-space: pre-wrap;
+    padding: 0px 3px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.reveal pre code {
+    background-color: #ededed;
+    white-space: pre-wrap;
+    color: #222;
+    border-left: 3px solid #353535;
+    border-radius: 0;
+    overflow: hidden;
+    margin: 10px 0;
+}
+
+.reveal pre.sourceCode code {
+  white-space: pre-wrap;
+    font-size: 16px;
+}
+
+
+.reveal pre { 
+
+background-color: #282a363d;
+  
 }
